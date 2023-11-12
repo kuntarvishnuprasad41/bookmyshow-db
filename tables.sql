@@ -1,4 +1,5 @@
-# CREATE DATABASE book_my_show;
+# DROP DATABASE book_my_show;
+CREATE DATABASE book_my_show;
 
 use book_my_show;
 
@@ -97,7 +98,7 @@ INSERT INTO cities(city_name, pincode, state) VALUES ('Kudlu', 671121, 'Kerala')
 INSERT INTO cities(city_name, pincode, state) VALUES ('Tilak Nagar', 671121, 'Kerala');
 SELECT * FROM cities;
 
-CREATE TABLE theatres(
+CREATE TABLE theaters(
     id BIGINT(20) NOT NULL AUTO_INCREMENT,
     address varchar(255) NOT NULL,
     name varchar(20) NOT NULL,
@@ -109,42 +110,44 @@ CREATE TABLE theatres(
     primary key(id)
 );
 
-INSERT INTO theatres(address, name, phone, email, city_id) VALUES ('Jayanagar 4th Block', 'INOX Garuda', '080-2500201', 'jayanagar@inox.com',1);
-INSERT INTO theatres(address, name, phone, email, city_id) VALUES ('Vidya Nagar,Kasaragodk', 'IMAX ', '1800-15240', 'cidyakgq@imax.com',2);
-INSERT INTO theatres(address, name, phone, email, city_id) VALUES ('JP 7 Phase', 'Satyam ', '080-2500202', 'jpnagar@isatyam.com',1);
-INSERT INTO theatres(address, name, phone, email, city_id) VALUES ('JP 7 Phase', 'Satyam Cine ', '080-2500202', 'jpnagar@isatyam.com',1);
-INSERT INTO theatres(address, name, phone, email, city_id) VALUES ('JP 7 Phase', 'Soundarya ', '080-2500208', 'jpnagar@gmail.com',1);
-SELECT * FROM theatres;
+INSERT INTO theaters(address, name, phone, email, city_id) VALUES ('Jayanagar 4th Block', 'INOX Garuda', '080-2500201', 'jayanagar@inox.com',1);
+INSERT INTO theaters(address, name, phone, email, city_id) VALUES ('Vidya Nagar,Kasaragodk', 'IMAX ', '1800-15240', 'cidyakgq@imax.com',2);
+INSERT INTO theaters(address, name, phone, email, city_id) VALUES ('JP 7 Phase', 'Satyam ', '080-2500202', 'jpnagar@isatyam.com',1);
+INSERT INTO theaters(address, name, phone, email, city_id) VALUES ('JP 7 Phase', 'Satyam Cine ', '080-2500202', 'jpnagar@isatyam.com',1);
+INSERT INTO theaters(address, name, phone, email, city_id) VALUES ('JP 7 Phase', 'Soundarya ', '080-2500208', 'jpnagar@gmail.com',1);
+SELECT * FROM theaters;
 
 
 
 CREATE TABLE screens(
     id BIGINT(20) NOT NULL AUTO_INCREMENT,
+    screen_ref INT NOT NULL ,
     seats_available INT NOT NULL,
-    theatre_id BIGINT(20) NOT NULL ,
+    theater_id BIGINT(20) NOT NULL ,
     show_timings TIME NOT NULL ,
+    show_date DATE NOT NULL ,
     movie_id BIGINT(20) NOT NULL ,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
-    CONSTRAINT theatre_id FOREIGN KEY (theatre_id) REFERENCES theatres(id),
+    CONSTRAINT theater_id FOREIGN KEY (theater_id) REFERENCES theaters(id),
     CONSTRAINT movie_rel_id FOREIGN KEY (movie_id) REFERENCES movies(id)
 );
 
 
 
 
-INSERT screens(seats_available, theatre_id, show_timings,movie_id) VALUES (250,1,'08:30:00',1);
-INSERT screens(seats_available, theatre_id, show_timings,movie_id) VALUES (150,1,'13:30:00',3);
-INSERT screens(seats_available, theatre_id, show_timings,movie_id) VALUES (200,2,'10:30:00',1);
-INSERT screens(seats_available, theatre_id, show_timings,movie_id) VALUES (250,3,'13:30:00',2);
-INSERT screens(seats_available, theatre_id, show_timings,movie_id) VALUES (300,1,'18:30:00',4);
-INSERT screens(seats_available, theatre_id, show_timings,movie_id) VALUES (450,1,'15:30:00',5);
-INSERT screens(seats_available, theatre_id, show_timings,movie_id) VALUES (350,2,'18:30:00',6);
-INSERT screens(seats_available, theatre_id, show_timings,movie_id) VALUES (150,3,'17:30:00',7);
-INSERT screens(seats_available, theatre_id, show_timings,movie_id) VALUES (550,4,'19:30:00',8);
-INSERT screens(seats_available, theatre_id, show_timings,movie_id) VALUES (350,2,'22:30:00',9);
-INSERT screens(seats_available, theatre_id, show_timings,movie_id) VALUES (250,3,'20:30:00',10);
+INSERT screens(screen_ref,seats_available, theater_id, show_timings,show_date, movie_id) VALUES (1,250,1,'08:30:00','2023-11-03',1);
+INSERT screens(screen_ref,seats_available, theater_id, show_timings,show_date,movie_id) VALUES (2,150,1,'13:30:00','2023-11-03',3);
+INSERT screens(screen_ref,seats_available, theater_id, show_timings,show_date,movie_id) VALUES (3,200,2,'10:30:00','2023-11-03',1);
+INSERT screens(screen_ref,seats_available, theater_id, show_timings,show_date,movie_id) VALUES (4,250,3,'13:30:00','2023-11-04',2);
+INSERT screens(screen_ref,seats_available, theater_id, show_timings,show_date,movie_id) VALUES (5,300,1,'18:30:00','2023-11-05',4);
+INSERT screens(screen_ref,seats_available, theater_id, show_timings,show_date,movie_id) VALUES (6,450,1,'15:30:00','2023-11-06',5);
+INSERT screens(screen_ref,seats_available, theater_id, show_timings,show_date,movie_id) VALUES (2,350,2,'18:30:00','2023-11-04',6);
+INSERT screens(screen_ref,seats_available, theater_id, show_timings,show_date,movie_id) VALUES (1,150,3,'17:30:00','2023-11-03',7);
+INSERT screens(screen_ref,seats_available, theater_id, show_timings,show_date,movie_id) VALUES (3,550,4,'19:30:00','2023-11-07',8);
+INSERT screens(screen_ref,seats_available, theater_id, show_timings,show_date,movie_id) VALUES (5,350,2,'22:30:00','2023-11-07',9);
+INSERT screens(screen_ref,seats_available, theater_id, show_timings,show_date,movie_id) VALUES (4,250,3,'20:30:00','2023-11-08',10);
 SELECT * FROM screens;
 
 CREATE TABLE tickets(
@@ -220,5 +223,7 @@ COMMIT ;
 
 select * FROM tickets;
 SELECT * FROM screens;
+
+
 
 
