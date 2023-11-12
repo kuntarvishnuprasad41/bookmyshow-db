@@ -1,1 +1,1 @@
-# QUERY
+# QUERIES
