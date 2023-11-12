@@ -80,15 +80,41 @@ INSERT INTO ratings(movie_id, user_id, rating) VALUES (3, 2, 4.5);
 INSERT INTO ratings(movie_id, user_id, rating) VALUES (5, 1, 4.5);
 SELECT * FROM ratings;
 
+CREATE TABLE cities(
+    id BIGINT(20) NOT NULL AUTO_INCREMENT,
+    city_name varchar(50),
+    pincode INT NOT NULL,
+    state varchar(50) NOT NULL,
+    primary key (id)
+);
+
+INSERT INTO cities(city_name, pincode, state) VALUES ('Jayanagar', 575003, 'Karnataka');
+INSERT INTO cities(city_name, pincode, state) VALUES ('Kasaragod', 671121, 'Kerala');
+INSERT INTO cities(city_name, pincode, state) VALUES ('Vasant Nagar', 671543, 'Kerala');
+INSERT INTO cities(city_name, pincode, state) VALUES ('JP Nagar', 575002, 'Karnataka');
+INSERT INTO cities(city_name, pincode, state) VALUES ('Kuntar', 671542, 'Kerala');
+INSERT INTO cities(city_name, pincode, state) VALUES ('Kudlu', 671121, 'Kerala');
+INSERT INTO cities(city_name, pincode, state) VALUES ('Tilak Nagar', 671121, 'Kerala');
+SELECT * FROM cities;
 
 CREATE TABLE theatres(
     id BIGINT(20) NOT NULL AUTO_INCREMENT,
     address varchar(255) NOT NULL,
     name varchar(20) NOT NULL,
+    phone varchar(13) NOT NULL ,
+    email varchar(50) NOT NULL,
+    city_id BIGINT(20) NOT NULL ,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     primary key(id)
 );
+
+INSERT INTO theatres(address, name, phone, email, city_id) VALUES ('Jayanagar 4th Block', 'INOX Garuda', '080-2500201', 'jayanagar@inox.com',1);
+INSERT INTO theatres(address, name, phone, email, city_id) VALUES ('Vidya Nagar,Kasaragodk', 'IMAX ', '1800-15240', 'cidyakgq@imax.com',2);
+INSERT INTO theatres(address, name, phone, email, city_id) VALUES ('JP 7 Phase', 'Satyam ', '080-2500202', 'jpnagar@isatyam.com',1);
+SELECT * FROM theatres;
+
+
 
 CREATE TABLE screens(
     id BIGINT(20) NOT NULL AUTO_INCREMENT,
