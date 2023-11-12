@@ -32,16 +32,53 @@ SELECT * FROM users;
 
 CREATE TABLE movies(
     id BIGINT(20) NOT NULL AUTO_INCREMENT,
+    name varchar(80) NOT NULL,
     censor_certificate_type varchar(5) NOT NULL,
     language varchar(20) NOT NULL,
-    name varchar(20) NOT NULL,
-    release_date varchar(20) NOT NULL,
+    release_date DATE NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     primary key(id)
 );
 
+INSERT INTO movies(name, censor_certificate_type, language, release_date) VALUES ('Sholay', 'U' , 'Hindi' , '2023-11-03');
+INSERT INTO movies(name, censor_certificate_type, language, release_date) VALUES ('Avengers Age of Ultron', 'A' , 'English' , '2023-11-03');
+INSERT INTO movies(name, censor_certificate_type, language, release_date) VALUES ('Deadpool', 'R' , 'English' , '2023-11-03');
+INSERT INTO movies(name, censor_certificate_type, language, release_date) VALUES ('Scooby Do', 'U/A' , 'English' , '2023-11-08');
+INSERT INTO movies(name, censor_certificate_type, language, release_date) VALUES ('IronMan', 'A' , 'English' , '2023-11-03');
+INSERT INTO movies(name, censor_certificate_type, language, release_date) VALUES ('Avengers Infinity War ', 'UA' , 'English' , '2023-10-03');
+INSERT INTO movies(name, censor_certificate_type, language, release_date) VALUES ('Avengers End Game', 'UA' , 'English' , '2023-11-08');
+INSERT INTO movies(name, censor_certificate_type, language, release_date) VALUES ('OppenHeimer', 'A' , 'English' , '2023-11-11');
+INSERT INTO movies(name, censor_certificate_type, language, release_date) VALUES ('Chaplin', 'U' , 'English' , '2023-11-08');
+INSERT INTO movies(name, censor_certificate_type, language, release_date) VALUES ('Dolittle', 'U' , 'English' ,'2023-11-08');
+INSERT INTO movies(name, censor_certificate_type, language, release_date) VALUES ('Bangalore Days', 'U' , 'Malayalam' , '2023-11-08');
+SELECT * FROM movies;
 
+
+CREATE TABLE ratings(
+    id BIGINT(20) NOT NULL AUTO_INCREMENT,
+    movie_id BIGINT(20) NOT NULL ,
+    user_id BIGINT(20) NOT NULL ,
+    rating DOUBLE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    primary key (id),
+    CONSTRAINT movie_id FOREIGN KEY (movie_id) REFERENCES movies(id),
+    CONSTRAINT user_id FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+INSERT INTO ratings(movie_id, user_id, rating) VALUES (1, 5, 3.5);
+INSERT INTO ratings(movie_id, user_id, rating) VALUES (2, 4, 4.5);
+INSERT INTO ratings(movie_id, user_id, rating) VALUES (3, 8, 1.5);
+INSERT INTO ratings(movie_id, user_id, rating) VALUES (1, 1, 4.5);
+INSERT INTO ratings(movie_id, user_id, rating) VALUES (4, 2, 5.0);
+INSERT INTO ratings(movie_id, user_id, rating) VALUES (3, 1, 4.5);
+INSERT INTO ratings(movie_id, user_id, rating) VALUES (5, 10, 4.5);
+INSERT INTO ratings(movie_id, user_id, rating) VALUES (5, 11, 3.5);
+INSERT INTO ratings(movie_id, user_id, rating) VALUES (1, 3, 3.5);
+INSERT INTO ratings(movie_id, user_id, rating) VALUES (3, 2, 4.5);
+INSERT INTO ratings(movie_id, user_id, rating) VALUES (5, 1, 4.5);
+SELECT * FROM ratings;
 
 
 CREATE TABLE theatres(
