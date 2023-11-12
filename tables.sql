@@ -112,6 +112,8 @@ CREATE TABLE theatres(
 INSERT INTO theatres(address, name, phone, email, city_id) VALUES ('Jayanagar 4th Block', 'INOX Garuda', '080-2500201', 'jayanagar@inox.com',1);
 INSERT INTO theatres(address, name, phone, email, city_id) VALUES ('Vidya Nagar,Kasaragodk', 'IMAX ', '1800-15240', 'cidyakgq@imax.com',2);
 INSERT INTO theatres(address, name, phone, email, city_id) VALUES ('JP 7 Phase', 'Satyam ', '080-2500202', 'jpnagar@isatyam.com',1);
+INSERT INTO theatres(address, name, phone, email, city_id) VALUES ('JP 7 Phase', 'Satyam Cine ', '080-2500202', 'jpnagar@isatyam.com',1);
+INSERT INTO theatres(address, name, phone, email, city_id) VALUES ('JP 7 Phase', 'Soundarya ', '080-2500208', 'jpnagar@gmail.com',1);
 SELECT * FROM theatres;
 
 
@@ -120,28 +122,103 @@ CREATE TABLE screens(
     id BIGINT(20) NOT NULL AUTO_INCREMENT,
     seats_available INT NOT NULL,
     theatre_id BIGINT(20) NOT NULL ,
-    show_timings DATETIME NOT NULL ,
+    show_timings TIME NOT NULL ,
+    movie_id BIGINT(20) NOT NULL ,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
-    CONSTRAINT theatre_id FOREIGN KEY (theatre_id) REFERENCES theatres(id)
+    CONSTRAINT theatre_id FOREIGN KEY (theatre_id) REFERENCES theatres(id),
+    CONSTRAINT movie_rel_id FOREIGN KEY (movie_id) REFERENCES movies(id)
 );
 
+
+
+
+INSERT screens(seats_available, theatre_id, show_timings,movie_id) VALUES (250,1,'08:30:00',1);
+INSERT screens(seats_available, theatre_id, show_timings,movie_id) VALUES (150,1,'13:30:00',3);
+INSERT screens(seats_available, theatre_id, show_timings,movie_id) VALUES (200,2,'10:30:00',1);
+INSERT screens(seats_available, theatre_id, show_timings,movie_id) VALUES (250,3,'13:30:00',2);
+INSERT screens(seats_available, theatre_id, show_timings,movie_id) VALUES (300,1,'18:30:00',4);
+INSERT screens(seats_available, theatre_id, show_timings,movie_id) VALUES (450,1,'15:30:00',5);
+INSERT screens(seats_available, theatre_id, show_timings,movie_id) VALUES (350,2,'18:30:00',6);
+INSERT screens(seats_available, theatre_id, show_timings,movie_id) VALUES (150,3,'17:30:00',7);
+INSERT screens(seats_available, theatre_id, show_timings,movie_id) VALUES (550,4,'19:30:00',8);
+INSERT screens(seats_available, theatre_id, show_timings,movie_id) VALUES (350,2,'22:30:00',9);
+INSERT screens(seats_available, theatre_id, show_timings,movie_id) VALUES (250,3,'20:30:00',10);
+SELECT * FROM screens;
 
 CREATE TABLE tickets(
     id BIGINT(20) NOT NULL AUTO_INCREMENT,
+    user_id BIGINT(20) NOT NULL ,
     seats_allotted varchar(255) NOT NULL,
     amount DOUBLE NOT NULL ,
-    booked_at DATETIME NOT NULL,
-    movie_id BIGINT(20) NOT NULL ,
-    user_id BIGINT(20) NOT NULL ,
     screen_id BIGINT(20) NOT NULL ,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    booked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     primary key (id),
-    CONSTRAINT movie_id FOREIGN KEY (movie_id) REFERENCES movies(id),
-    CONSTRAINT user_id FOREIGN KEY (user_id) REFERENCES users(id),
-    CONSTRAINT screen_id FOREIGN KEY (screen_id) REFERENCES screens(id)
+    CONSTRAINT user_rel_id FOREIGN KEY (user_id) REFERENCES users(id),
+    CONSTRAINT screen_rel_id FOREIGN KEY (screen_id) REFERENCES screens(id)
 );
+
+
+START TRANSACTION ;
+SELECT seats_available FROM screens where id = 2;
+INSERT INTO tickets(user_id,seats_allotted, amount, screen_id) VALUES (1,'{type:continuous,number_of_seats:5,seat_numbers[10,11,12,13,14,15]}',5500,2);
+UPDATE screens SET seats_available = seats_available -5 WHERE id = 2;
+COMMIT ;
+
+START TRANSACTION ;
+SELECT seats_available FROM screens where id = 2;
+INSERT INTO tickets(user_id,seats_allotted, amount, screen_id) VALUES (4,'{type:seperate,number_of_seats:4,seat_numbers[5,7,8,9,18]}',250,2);
+UPDATE screens SET seats_available = seats_available -4 WHERE id = 2;
+COMMIT ;
+START TRANSACTION ;
+SELECT seats_available FROM screens where id = 3;
+INSERT INTO tickets(user_id,seats_allotted, amount, screen_id) VALUES (3,'{type:continuous,number_of_seats:2,seat_numbers[101,102]}',5500,3);
+UPDATE screens SET seats_available = seats_available -2 WHERE id = 3;
+COMMIT ;
+START TRANSACTION ;
+SELECT seats_available FROM screens where id = 2;
+INSERT INTO tickets(user_id,seats_allotted, amount, screen_id) VALUES (7,'{type:seperate,number_of_seats:3,seat_numbers[100,103]}',5500,2);
+UPDATE screens SET seats_available = seats_available -3 WHERE id = 2;
+COMMIT ;
+START TRANSACTION ;
+SELECT seats_available FROM screens where id = 4;
+INSERT INTO tickets(user_id,seats_allotted, amount, screen_id) VALUES (9,'{type:continuous,number_of_seats:2,seat_numbers[104,105]}',5500,4);
+UPDATE screens SET seats_available = seats_available -2 WHERE id = 4;
+COMMIT ;
+START TRANSACTION ;
+SELECT seats_available FROM screens where id = 2;
+INSERT INTO tickets(user_id,seats_allotted, amount, screen_id) VALUES (10,'{type:seperate,number_of_seats:2,seat_numbers[106,110]}',5500,2);
+UPDATE screens SET seats_available = seats_available -2 WHERE id = 2;
+COMMIT ;
+START TRANSACTION ;
+SELECT seats_available FROM screens where id = 2;
+INSERT INTO tickets(user_id,seats_allotted, amount, screen_id) VALUES (11,'{type:single,number_of_seats:1,seat_numbers[107]}',5500,2);
+UPDATE screens SET seats_available = seats_available -1 WHERE id = 2;
+COMMIT ;
+START TRANSACTION ;
+SELECT seats_available FROM screens where id = 1;
+INSERT INTO tickets(user_id,seats_allotted, amount, screen_id) VALUES (2,'{type:single,number_of_seats:1,seat_numbers[108]}',5500,1);
+UPDATE screens SET seats_available = seats_available -1 WHERE id = 1;
+COMMIT ;
+START TRANSACTION ;
+SELECT seats_available FROM screens where id = 1;
+INSERT INTO tickets(user_id,seats_allotted, amount, screen_id) VALUES (5,'{type:continuous,number_of_seats:2,seat_numbers[201,202]}',5500,1);
+UPDATE screens SET seats_available = seats_available -2 WHERE id = 1;
+COMMIT ;
+START TRANSACTION ;
+SELECT seats_available FROM screens where id = 2;
+INSERT INTO tickets(user_id,seats_allotted, amount, screen_id) VALUES (8,'{type:seperate,number_of_seats:2,seat_numbers[200,203]}',5500,2);
+UPDATE screens SET seats_available = seats_available -2 WHERE id = 2;
+COMMIT ;
+START TRANSACTION ;
+SELECT seats_available FROM screens where id = 2;
+INSERT INTO tickets(user_id,seats_allotted, amount, screen_id) VALUES (6,'{type:single,number_of_seats:1,seat_numbers[204]}',5500,2);
+UPDATE screens SET seats_available = seats_available -1 WHERE id = 2;
+COMMIT ;
+
+select * FROM tickets;
+SELECT * FROM screens;
 
 
